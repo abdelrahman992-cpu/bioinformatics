@@ -15370,7 +15370,7 @@ print(countNucFrequency(DNAStr))\lang3073\f1\rtlch\par
 [2] Nuleotide Frequency\par
 \{'A': 6, 'C': 6, 'T': 4, 'G': 4\}\lang9\f0\par
 \pard\ltrpar\sa200\sl276\slmult1\lang1033\par
-\pard\ltrpar\sa200\sl240\slmult1{\pict\wmetafile8\picw15240\pich6985\picwgoal8640\pichgoal3960 
+\pard\ltrpar\sa200\sl240\slmult1\lang9{\pict\wmetafile8\picw15240\pich6985\picwgoal8640\pichgoal3960 
 010009000003382604000000222604000000050000000b0200000000050000000c02491b883b22
 260400430f2000cc0000002001750200000000491b883b00000000280000007502000020010000
 0100180000000000004c0800c40e0000c40e000000000000000000001919191919191919191919
@@ -29317,7 +29317,7 @@ ffffffffffffffffffffffffffffffffffb6b6b61e1e1e1f1f1f21212121212121212121212121
 211f1f211f1f211f1f211f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f21201d21201d21201d21201d
 1f1f1f1f1f1f1f1f1f1f1f1f211f1f211f1f211f1f211f1f211f1f211f1f211f1f000300000000
 00
-}\par
+}\lang1033\par
 \lang9\b\fs48 DNAToolKit.py\lang1033\b0\fs22\par
 import collections\par
 Nucleotides=['A','G','T','C']\par
@@ -29422,7 +29422,7 @@ GGAUGUUACCCGUAUGAUUA\par
 5`-GGATGTTACCCGTATGATTA-3`\par
    ||||||||||||||||||||\par
 3`-TAATCATACGGGTAACATCC-5`\lang3073\f1\rtlch\par
-\pard\ltrpar\sa200\sl240\slmult1\lang1033\f2\ltrch{\pict\wmetafile8\picw5212\pich1720\picwgoal2955\pichgoal975 
+\pard\ltrpar\sa200\sl240\slmult1\lang9\f0\ltrch{\pict\wmetafile8\picw5212\pich1720\picwgoal2955\pichgoal975 
 010009000003604b000000004a4b00000000050000000b0200000000050000000c02b8065c144a
 4b0000430f2000cc0000004100c50000000000b8065c140000000028000000c500000041000000
 010018000000000050960000c40e0000c40e000000000000000000000000000000000000000000
@@ -30413,7 +30413,86 @@ e4e4828282ebebeb5d5d5d0000000000009c9c9ce4e4e4828282ebebeb5d5d5d0000000000009c
 000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000000000000000000000000030000000000
-}\par
-\pard\ltrpar\sa200\sl276\slmult1\lang9\f0\par
+}\lang1033\f2\par
+\b\fs40 structures.py\par
+\b0\fs22 Nucleotides=['A','G','T','C']\par
+DNAreverseComplement =\{"A":"T",'T':"A","G":"C","C":"G"\}\b\fs40\par
+\lang9\f0\fs48 DNAToolKit.py\lang1033\b0\fs22\par
+\pard\ltrpar\sa200\sl276\slmult1\lang9 import collections\par
+from structures import *\par
+def validateSeq(dna_seq):\par
+    tmpseq=dna_seq.upper()\par
+    for nuc in tmpseq:\par
+        if nuc not in Nucleotides:\par
+            return False\par
+    return tmpseq\par
+\par
+def countNucFrequency(seq):\par
+    #tmpFreqDict=\{"A":0,"C":0,"G":0,"T":0\}\par
+    #for nuc in seq:\par
+        #tmpFreqDict[nuc]+=1\par
+    #return tmpFreqDict\par
+    return dict(collections.Counter(seq))\par
+def transcription(seq):\par
+    return seq.replace("T","U")\par
+def reverseComplement(seq):\par
+    return ''.join([DNAreverseComplement[nuc] for nuc in seq])[::-1]\par
+def GCcontent(seq):\par
+    return round((seq.count('C')+seq.count('G')) / len(seq) * 100)\par
+def gc_content_subsec(seq, k=20):\par
+        """GC Content in a DNA/RNA sub-sequence length k. k=20 by default"""\par
+        res = []\par
+        for i in range(0, len(seq) - k + 1, k):\par
+            subseq = seq[i:i + k]\par
+            res.append(\par
+                round((subseq.count('C') + subseq.count('G')) / len(subseq) * 100))\par
+        return res\par
+\pard\ltrpar\sa200\sl240\slmult1\lang1033\b\f2\fs40 main1.py\b0\f0\fs22\par
+\lang9 from DNAToolKit import *\par
+from colorama import init\par
+from utilities import colored\par
+import random\par
+\par
+rndDNAStr=''.join([random.choice(Nucleotides) for nuc in range(50)])\par
+DNAStr=validateSeq(rndDNAStr)\par
+print("\\n seqeunce\\n"+(DNAStr)+"\\n")\par
+print("[1] seqeuncelength")\par
+print(len(DNAStr))\par
+print("\\n[2] Nuleotide Frequency")\par
+print(countNucFrequency(DNAStr))\par
+print("\\n[3] DNA/RNA Transcription")\par
+print(transcription(DNAStr))\par
+print("[4] DNA String + complement+ Reverse complement")\par
+print("5`-"+DNAStr+"-3`")\par
+print("   "+''.join(['|'for c in range(len(DNAStr))]))\par
+print("3`-"+reverseComplement(DNAStr)[::-1]+"-5` Complement")\par
+print("5`-"+reverseComplement(DNAStr)+"-3` Rev Complement")\par
+print("[5]GC Content")\par
+print(GCcontent(DNAStr))\par
+print("[6] GC content in subsection k=5")\par
+print(gc_content_subsec(DNAStr,k=5))\par
+\lang3073\f1\rtlch\'c7\'e1\'e4\'ca\'ed\'cc\'c9\par
+\lang1033\f2\ltrch\par
+ seqeunce\par
+TTCCATAGTTGTAGTGACATAATCGATGAGCCCAGGTAGCGACGTATAAC\par
+\par
+[1] seqeuncelength\par
+50\par
+\par
+[2] Nuleotide Frequency\par
+\{'A': 15, 'C': 10, 'T': 13, 'G': 12\}\par
+\par
+[3] DNA/RNA Transcription\par
+UUCCAUAGUUGUAGUGACAUAAUCGAUGAGCCCAGGUAGCGACGUAUAAC\par
+[4] DNA String + complement+ Reverse complement\par
+5`-TTCCATAGTTGTAGTGACATAATCGATGAGCCCAGGTAGCGACGTATAAC-3`\par
+   ||||||||||||||||||||||||||||||||||||||||||||||||||\par
+3`-AAGGTATCAACATCACTGTATTAGCTACTCGGGTCCATCGCTGCATATTG-5` Complement\par
+5`-GTTATACGTCGCTACCTGGGCTCATCGATTATGTCACTACAACTATGGAA-3` Rev Complement\par
+[5]GC Content\par
+0.0\par
+[6] GC content in subsection k=5\par
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\lang3073\f1\rtlch\par
+\lang9\f0\ltrch\par
 }
  
